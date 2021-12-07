@@ -1,14 +1,20 @@
 package com.matar.education.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.matar.education.entity.Student;
@@ -35,27 +41,53 @@ public class StudentController {
 	}
 	
 	// handler method to handle list students and return mode and view
-	@GetMapping("/students")
+	@GetMapping("/students/allstudents")
 	public List<Student> listStudents(Model model) {
 		//model.addAttribute("students", studentService.getAllStudents());
 		return  studentService.getAllStudents() ;
 	}
+	@GetMapping("/students/get/{id}")
+	public Student getStudent(@PathVariable Long id) {		
+		return studentService.getStudentById(id).orElseThrow(); 
+	}
 	
-	@GetMapping("/students/new")
-	public String createStudentForm(Model model) {
+	@PostMapping("/students/new")
+	public  Student saveStudent(@RequestBody Student student) {
 		
-		// create student object to hold student form data
-		Student student = new Student();
-		model.addAttribute("student", student);
-		return "create_student";
+		return  studentService.saveStudent(student);
 		
 	}
 	
-	@PostMapping("/students")
-	public String saveStudent(@ModelAttribute("student") Student student) {
+	@PutMapping("/student/update/{id}")
+	
+	public ResponseEntity<Student> updateEmployee(@PathVariable Long id, @RequestBody Student studentDetails){
+		
+		Student student = studentService.findById(id).orElseThrow();
+		student.setFirstName(studentDetails.getFirstName());
+		student.setLastName(studentDetails.getLastName());
+		student.setEmail(studentDetails.getEmail());
+		Student  updatedstudent= studentService.saveStudent(student);
+		return ResponseEntity.ok(updatedstudent);
+		
+	}
+	
+	// delete employee rest api
+	@DeleteMapping("/student/delete/{id}")
+	public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id){
+		Student student = studentService.findById(id).orElseThrow();
+		
+		studentService.delete(student);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted ok ", Boolean.TRUE);
+		response.put("tesst ", Boolean.TRUE);
+		return ResponseEntity.ok(response);
+	}
+	
+	/*@PostMapping("/students")
+	public Strinnt(@ModelAttribute("student") Student student) {
 		studentService.saveStudent(student);
 		return "redirect:/students";
-	}
+	}*/
 	
 	@GetMapping("/students/edit/{id}")
 	public String editStudentForm(@PathVariable Long id, Model model) {
@@ -69,7 +101,7 @@ public class StudentController {
 			Model model) {
 		
 		// get student from database by id
-		Student existingStudent = studentService.getStudentById(id);
+		Student existingStudent = studentService.getStudentById(id).orElseThrow();
 		existingStudent.setId(id);
 		existingStudent.setFirstName(student.getFirstName());
 		existingStudent.setLastName(student.getLastName());

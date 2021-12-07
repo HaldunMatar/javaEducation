@@ -1,6 +1,7 @@
 package com.matar.education.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,8 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 	@Override
-	public Student getStudentById(Long id) {
-		return studentRepository.findById(id).get();
+	public Optional<Student> getStudentById(Long id) {
+		return studentRepository.findById(id);
 	}
 
 	@Override
@@ -41,6 +42,18 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public void deleteStudentById(Long id) {
 		studentRepository.deleteById(id);	
+	}
+
+	@Override
+	public Optional<Student> findById(Long idStudent) {
+		// TODO Auto-generated method stub
+		return studentRepository.findById(idStudent) ;
+	}
+
+	@Override
+	public void delete(Student student) {
+		 studentRepository.deleteById(student.getId());
+		
 	}
 
 }

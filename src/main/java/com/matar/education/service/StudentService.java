@@ -1,6 +1,7 @@
 package com.matar.education.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.matar.education.entity.Student;
 
@@ -11,9 +12,18 @@ public interface StudentService {
 	
 	Student saveStudent(Student student);
 	
-	Student getStudentById(Long id);
+	Optional<Student> getStudentById(Long id);
 	
 	Student updateStudent(Student student);
 	
 	void deleteStudentById(Long id);
+	
+	
+	
+	Optional<Student> findById(Long idStudent);
+
+	void delete(Student student);
+	
+	
+	
 }
