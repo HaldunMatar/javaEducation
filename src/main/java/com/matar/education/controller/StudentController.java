@@ -4,10 +4,14 @@ package com.matar.education.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,21 +19,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.matar.education.entity.Grade;
 import com.matar.education.entity.Student;
 import com.matar.education.service.StudentService;
+import com.matar.education.service.FilesStorageService;
+import com.matar.education.service.GradeService;
 
-
-
+@CrossOrigin(origins = "http://localhost:60386")
 @RestController
 public class StudentController {
 	
 	private StudentService studentService;
+	
+	@Autowired
+	  FilesStorageService storageService;
+	
 
-	public StudentController(StudentService studentService) {
+	public StudentController(StudentService studentServicee) {
 		super();
-		this.studentService = studentService;
+		this.studentService = studentServicee;
+
 	}
 	
 	
@@ -40,11 +53,43 @@ public class StudentController {
 		return new Student();
 	}
 	
+	
+	
+	  @PostMapping("/students/storeImage")
+	  public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile file) {
+		  System.out.print("storeImagestoreImagestoreImage ");
+	    String message = "";
+	    try {
+	      storageService.save(file);
+	      message = "Uploaded the file successfully: " + file.getOriginalFilename();
+	      return ResponseEntity.status(HttpStatus.OK).body(message);
+	    } catch (Exception e) {
+	      message = "Could not upload the file: " + file.getOriginalFilename() + "!" + e.getMessage();
+	      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+	    }
+	  }
+	
+	
+	@PostMapping("/students/storeImage1")
+	public void  storeImage() {
+		System.out.print("storeImagestoreImagestoreImage ");
+	
+	}
+	
+	
 	// handler method to handle list students and return mode and view
 	@GetMapping("/students/allstudents")
 	public List<Student> listStudents(Model model) {
 		//model.addAttribute("students", studentService.getAllStudents());
-		return  studentService.getAllStudents() ;
+		return  studentService.getAllStudents() ;  
+	}
+	@GetMapping("/students/studentspage/{pageKey}/{num}/{searchString}")
+	public List<Student> getStudentByPage(@PathVariable Long pageKey,@PathVariable Long num,@PathVariable String searchString) {
+		System.out.print(pageKey.toString() + searchString);
+		
+		List l = studentService.getStudentByPage(pageKey,num,searchString).orElseThrow(); 
+		System.out.println(l.size());
+		return l; 		
 	}
 	@GetMapping("/students/get/{id}")
 	public Student getStudent(@PathVariable Long id) {		
@@ -53,6 +98,7 @@ public class StudentController {
 	
 	@PostMapping("/students/new")
 	public  Student saveStudent(@RequestBody Student student) {
+		System.out.println(student);
 		
 		return  studentService.saveStudent(student);
 		

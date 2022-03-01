@@ -24,6 +24,8 @@ public interface StudentService {
 
 	void delete(Student student);
 	
+	Optional<List<Student>>   getStudentByPage(Long pageKey,Long num, String searchString);
+	
 	
 	
 }

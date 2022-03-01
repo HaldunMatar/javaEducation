@@ -17,6 +17,7 @@ public class StudentServiceImpl implements StudentService{
 	public StudentServiceImpl(StudentRepository studentRepository) {
 		super();
 		this.studentRepository = studentRepository;
+		
 	}
 
 	@Override
@@ -53,6 +54,24 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public void delete(Student student) {
 		 studentRepository.deleteById(student.getId());
+		
+	}
+
+	@Override
+	public Optional<List<Student>> getStudentByPage(Long pageKey,Long num,String searchString) {
+		
+		//System.out.println(searchString );
+		
+		if(searchString.equals("null")) {
+		//	System.out.println("nulnulnulnulnulnulnulnulnul" + searchString );
+			return  studentRepository.getStudentByPage(pageKey, num);
+		}else {
+		//	System.out.println("nonononbono");
+		return  studentRepository.getStudentByPageSeach(pageKey, num,searchString);
+		}
+		// TODO Auto-generated method stub
+		
+		
 		
 	}
 
