@@ -47,27 +47,32 @@ public class StudentController {
 	
 	
 	// handler method to handle list students and return mode and view
+	@GetMapping("/studentsImage/")
+	public Student getHomePage(@RequestParam("image") String imageName) {
+		
+		return new Student();
+	}
+	
 	@GetMapping("/")
 	public Student getHomePage(Model model) {
 		
 		return new Student();
 	}
 	
-	
-	
 	  @PostMapping("/students/storeImage")
-	  public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile file) {
-		  System.out.print("storeImagestoreImagestoreImage ");
-	    String message = "";
-	    try {
-	      storageService.save(file);
-	      message = "Uploaded the file successfully: " + file.getOriginalFilename();
-	      return ResponseEntity.status(HttpStatus.OK).body(message);
-	    } catch (Exception e) {
-	      message = "Could not upload the file: " + file.getOriginalFilename() + "!" + e.getMessage();
-	      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
-	    }
-	  }
+	  public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile file) 
+	    {
+		   System.out.print("storeImagestoreImagestoreImage ");
+	       String message = "";
+	      try {
+	           storageService.save(file);
+	           message = "Uploaded the file successfully: " + file.getOriginalFilename();      
+	           return ResponseEntity.status(HttpStatus.OK).body(message);
+	       } catch (Exception e) {
+	         message = "Could not upload the file: " + file.getOriginalFilename() + "!" + e.getMessage();
+	         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+	      }
+	   }
 	
 	
 	@PostMapping("/students/storeImage1")

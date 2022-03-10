@@ -15,7 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.matar.education.service.FilesStorageService;
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
-  private final Path root = Paths.get("uploads");
+	  private final Path root = Paths.get("src/main/resources/static");
+ // private final Path root = Paths.get("uploads");
   @Override
   public void init() {
     try {

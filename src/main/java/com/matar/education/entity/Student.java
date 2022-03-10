@@ -34,6 +34,16 @@ public class Student {
 	@Column(name = "email")
 	private String email;
 	
+	@Column(name = "imag_uri")
+	private String imageuri;
+	
+	public String getImageuri() {
+		return imageuri;
+	}
+
+	public void setImageuri(String imageuri) {
+		this.imageuri = imageuri;
+	}
 	@Column(name="birth_date")
 	private  Date  birthDate ;
 	
