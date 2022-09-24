@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.matar.education.entity.Grade;
 import com.matar.education.service.GradeService;
-@CrossOrigin(origins = "http://localhost:60386")
+@CrossOrigin(origins = "*")
 @RestController
 public class GradeController {
 	
@@ -26,12 +26,20 @@ public class GradeController {
 	@GetMapping("/grades/gradespage/{pageKey}/{num}")
 	public List<Grade> getGradeByPage(@PathVariable Long pageKey,@PathVariable Long num) {
 		System.out.println("getGradeByPage");
-		List<Grade> temp= gradeService.getGradesByPage(pageKey, num).orElseThrow();  
 		
-		System.out.println(temp.size());
+
+		
+	
 		
 		return gradeService.getGradesByPage(pageKey, num).orElseThrow(); 
 	}
+	
+@GetMapping("/grades/gradeById/{gradid}")
+public Grade  gradeById(@PathVariable Long  gradid ) {
+	return gradeService.getGradeById(gradid).orElseThrow();
+	
+}
+
 	
 
 	

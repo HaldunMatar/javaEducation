@@ -6,18 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 
 import com.matar.education.entity.Student;
 import com.matar.education.repository.StudentRepository;
-import com.matar.education.service.FilesStorageService;
+
 
 @SpringBootApplication
+@EnableConfigurationProperties({
+	FileStorageProperties.class
+})
 public class EducationApplication implements CommandLineRunner {
 	@Autowired
 	private StudentRepository studentRepository;
-	  @Resource
-	  FilesStorageService storageService;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(EducationApplication.class, args);
@@ -27,9 +30,7 @@ public class EducationApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		  storageService.deleteAll();
-		    storageService.init();
-		    
+
 		// TODO Auto-generated method stub
 		
 		/*

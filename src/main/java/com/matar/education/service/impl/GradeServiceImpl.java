@@ -34,6 +34,17 @@ public class GradeServiceImpl implements GradeService {
 			return gradeRepository.getGradesByPage(keyPage, num); 
 		}
 
+		@Override
+		public Optional<Grade> getGradeById(Long Id) {
+			// TODO Auto-generated method stub
+			System.out.println("  @Override  getGradeById ");
+			System.out.println(Id.doubleValue());
+			//System.out.println(gradeRepository.findById((long) 993));
+			return gradeRepository.findById(Id) ;
+		}
+		
+
+
 	
 
 

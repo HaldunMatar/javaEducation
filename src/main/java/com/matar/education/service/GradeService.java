@@ -9,6 +9,8 @@ public interface GradeService {
 	
 	
 	 Optional<List<Grade>> getGradesByPage(Long keyPage, Long num);
+	 
+	 Optional<Grade>  getGradeById(Long gradeId);
 	
 	
 }

@@ -4,9 +4,7 @@ package com.matar.education.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,17 +24,19 @@ import org.springframework.web.multipart.MultipartFile;
 import com.matar.education.entity.Grade;
 import com.matar.education.entity.Student;
 import com.matar.education.service.StudentService;
-import com.matar.education.service.FilesStorageService;
 import com.matar.education.service.GradeService;
 
-@CrossOrigin(origins = "http://localhost:60386")
+@CrossOrigin(origins = "*")
 @RestController
 public class StudentController {
 	
 	private StudentService studentService;
-	
-	@Autowired
-	  FilesStorageService storageService;
+	/*INSERT INTO `dbsystem`.`students` (`id`, `email`, `first_name`, `last_name`, `birth_date`, `grade_id`, `imag_uri`)
+ VALUES ('666', 'kh@gg.jjj', 'fg', 'ttff', '2022-09-21',
+  '8', '192.168.1.104:8080uploadsfbc133d0-ebeb-4988-9964-26c1343a46802205754692430476321.jpg');
+ 
+ *
+ */
 	
 
 	public StudentController(StudentService studentServicee) {
@@ -59,21 +59,6 @@ public class StudentController {
 		return new Student();
 	}
 	
-	  @PostMapping("/students/storeImage")
-	  public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile file) 
-	    {
-		   System.out.print("storeImagestoreImagestoreImage ");
-	       String message = "";
-	      try {
-	           storageService.save(file);
-	           message = "Uploaded the file successfully: " + file.getOriginalFilename();      
-	           return ResponseEntity.status(HttpStatus.OK).body(message);
-	       } catch (Exception e) {
-	         message = "Could not upload the file: " + file.getOriginalFilename() + "!" + e.getMessage();
-	         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
-	      }
-	   }
-	
 	
 	@PostMapping("/students/storeImage1")
 	public void  storeImage() {
@@ -88,9 +73,9 @@ public class StudentController {
 		//model.addAttribute("students", studentService.getAllStudents());
 		return  studentService.getAllStudents() ;  
 	}
-	@GetMapping("/students/studentspage/{pageKey}/{num}/{searchString}")
-	public List<Student> getStudentByPage(@PathVariable Long pageKey,@PathVariable Long num,@PathVariable String searchString) {
-		System.out.print(pageKey.toString() + searchString);
+	@GetMapping("/students/studentspage/{pageKey}/{num}")
+	public List<Student> getStudentByPage(@PathVariable Long pageKey,@PathVariable Long num,@RequestParam("searchString") String searchString) {
+		System.out.print("getStudentByPage "+pageKey.toString() + searchString);
 		
 		List l = studentService.getStudentByPage(pageKey,num,searchString).orElseThrow(); 
 		System.out.println(l.size());
@@ -101,6 +86,20 @@ public class StudentController {
 		return studentService.getStudentById(id).orElseThrow(); 
 	}
 	
+	// delete employee rest api
+	@DeleteMapping("/students/delete/{id}")
+	public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id){
+		System.out.println("deletedeletedeletedeletedeletedeletedeletedeletedelete");
+		Student student = studentService.findById(id).orElseThrow();
+		
+		studentService.delete(student);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted ok ", Boolean.TRUE);
+		response.put("tesst ", Boolean.TRUE);
+		return ResponseEntity.ok(response);
+	}
+	
+
 	@PostMapping("/students/new")
 	public  Student saveStudent(@RequestBody Student student) {
 		System.out.println(student);
@@ -122,18 +121,7 @@ public class StudentController {
 		
 	}
 	
-	// delete employee rest api
-	@DeleteMapping("/student/delete/{id}")
-	public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id){
-		Student student = studentService.findById(id).orElseThrow();
-		
-		studentService.delete(student);
-		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted ok ", Boolean.TRUE);
-		response.put("tesst ", Boolean.TRUE);
-		return ResponseEntity.ok(response);
-	}
-	
+
 	/*@PostMapping("/students")
 	public Strinnt(@ModelAttribute("student") Student student) {
 		studentService.saveStudent(student);

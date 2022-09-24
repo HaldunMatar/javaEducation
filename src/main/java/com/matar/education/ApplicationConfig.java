@@ -18,13 +18,14 @@ public class ApplicationConfig implements WebMvcConfigurer
 				"classpath:/public/",
 				"classpath:/custom/",
 				"file:/opt/myfiles/"
+				
 		    };
 
 	 @Override
 	 public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-	  //  registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/statics/")
-	          //  .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
+	 
+	   registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/statics/")
+	           .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());	   
 	 }
 		    
 		
