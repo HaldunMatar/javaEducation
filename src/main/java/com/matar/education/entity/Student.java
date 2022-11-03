@@ -23,6 +23,39 @@ public class Student {
 	
 	@Column(name = "last_name")
 	private String lastName;
+	@Column(name = "tc")
+	private String tc;
+	
+	
+
+	public String getTc() {
+		return tc;
+	}
+
+	public void setTc(String tc) {
+		this.tc = tc;
+	}
+
+	public String getFather() {
+		return father;
+	}
+
+	public void setFather(String father) {
+		this.father = father;
+	}
+
+	public String getMother() {
+		return mother;
+	}
+
+	public void setMother(String mother) {
+		this.mother = mother;
+	}
+	@Column(name = "father")
+	private String  father ;
+	
+	@Column(name = "mother")
+	private String  mother ;
 	
 	public Date getBirthDate() {
 		return birthDate;

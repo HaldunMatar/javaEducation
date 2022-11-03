@@ -17,31 +17,29 @@ import com.matar.education.repository.StudentRepository;
 @EnableConfigurationProperties({
 	FileStorageProperties.class
 })
-public class EducationApplication implements CommandLineRunner {
-	@Autowired
-	private StudentRepository studentRepository;
-
-
+public class EducationApplication implements CommandLineRunner
+  {
+	
+	@Autowired	
+	private StudentRepository studentRepository;	
+	
 	public static void main(String[] args) {
 		SpringApplication.run(EducationApplication.class, args);
-	
 	}
 
+	
 	@Override
-	public void run(String... args) throws Exception {
-		
-
-		// TODO Auto-generated method stub
-		
+	public void run(String... args) throws Exception {		
+		// TODO Auto-generated method stub		
 		/*
 		 Student student1 = new Student("Ramesh", "Fadatare", "ramesh@gmail.com");
-		 studentRepository.save(student1);
-		  
+		 studentRepository.save(student1); 
 		 Student student2 = new Student("Sanjay", "Jadhav", "sanjay@gmail.com");
 		  studentRepository.save(student2);
-		 
 		 Student student3 = new Student("tony", "stark", "tony@gmail.com");
-		 studentRepository.save(student3);*/
+		 studentRepository.save(student3);
+		 
+		 */
 	}
 	
 	

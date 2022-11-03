@@ -83,6 +83,11 @@ public class StudentController {
 	}
 	@GetMapping("/students/get/{id}")
 	public Student getStudent(@PathVariable Long id) {		
+		
+		Student s =  studentService.getStudentById(id).orElseThrow();
+		
+		System.out.print(s.getTc());
+		 
 		return studentService.getStudentById(id).orElseThrow(); 
 	}
 	
@@ -102,7 +107,7 @@ public class StudentController {
 
 	@PostMapping("/students/new")
 	public  Student saveStudent(@RequestBody Student student) {
-		System.out.println(student);
+		System.out.println(student.getTc());
 		
 		return  studentService.saveStudent(student);
 		
