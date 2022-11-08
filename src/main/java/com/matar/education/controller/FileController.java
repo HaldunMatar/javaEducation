@@ -72,43 +72,23 @@ import com.matar.education.FileStorageProperties;
         }
         
         @PostMapping("/students/uploadFileFromWeb")
-        public void  uploadFileFromWeb(@RequestBody  byte[] file1 ) throws IOException 
+     //   public void  uploadFileFromWeb(@RequestBody  byte[] file1 ) throws IOException 
+        public UploadFileResponse uploadFileFromWeb(@RequestParam("file") MultipartFile file)
         {
-        	//
-        	System.out.println("!file1.isEmpty() " + file1.length);
-                               
+                                
         	System.out.println("I am in server start file upload ");
         	
         	System.out.println("Converted Successfully!");
-        		        
-             BufferedImage image=    ImageIO.read(new ByteArrayInputStream(file1));
-        		     
-        	 ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
-        		      ImageIO.write(image, "jpg", new File("outputImage.jpg")  );
-
-        		   /*   
-        		      System.out.println("input_stream  input_stream  input_stream !" + input_stream.readAllBytes().length);
-        		      BufferedImage final_buffered_image = ImageIO.read(input_stream);
-        		      
-        		      System.out.println("BufferedImage  BufferedImage  BufferedImage !" + final_buffered_image.getTileWidth());
-        		      
-        		      
-        		      
-        		      
-        		      
-       
-        	
-        	
-        	
-        	
-        /*    String fileName = fileStorageService.storeFile(file,fileid);
+        	String fileName = fileStorageService.storeFile(file,file.getName());
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/downloadFile/")
-                    .path(fileid)
+                    .path(file.getName())
                     .toUriString();
             return 
             		 new UploadFileResponse(fileName, fileDownloadUri,
-                    file.getContentType(), file.getSize());*/
+                    file.getContentType(), file.getSize());
+        		        
+            
         }
         
         
