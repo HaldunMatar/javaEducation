@@ -73,12 +73,12 @@ import com.matar.education.FileStorageProperties;
         
         @PostMapping("/students/uploadFileFromWeb")
      //   public void  uploadFileFromWeb(@RequestBody  byte[] file1 ) throws IOException 
-        public UploadFileResponse uploadFileFromWeb(@RequestParam("file") MultipartFile file)
+        public UploadFileResponse uploadFileFromWeb(@RequestParam("file") MultipartFile file,@RequestParam("fileid") String fileid)
         {                            
         	System.out.println("I  web am in server start file upload ");
         	
         	System.out.println("Converted Successfully!");
-        	String fileName = fileStorageService.storeFile(file,file.getName());
+        	String fileName = fileStorageService.storeFile(file,fileid);
         	System.out.print(fileName) ;
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/downloadFile/")
